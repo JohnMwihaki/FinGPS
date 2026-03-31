@@ -6,7 +6,7 @@ import {
   IconButton,
   Divider,
 } from "@mui/material";
-import { Twitter, Facebook, Instagram, LinkedIn } from "@mui/icons-material";
+import { Twitter, Facebook, Instagram, LinkedIn, ArrowUpward } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
@@ -15,10 +15,10 @@ const Footer = () => {
   return (
     <Box
       sx={{
-        bgcolor: "var(--color-bg-card)",
+        bgcolor: "var(--color-primary-dark)",
+        color: "white",
         pt: 10,
         pb: 4,
-        borderTop: "1px solid var(--color-border)",
       }}
     >
       <Container maxWidth="lg">
@@ -26,13 +26,13 @@ const Footer = () => {
           <Box sx={{ flex: { xs: "1 1 100%", md: "1 1 300px" } }}>
             <Typography
               variant="h5"
-              sx={{ fontWeight: 800, mb: 2, color: "var(--color-primary)" }}
+              sx={{ fontWeight: 900, mb: 2, color: "white" }}
             >
-              FinGPS
+              FinGPS.
             </Typography>
             <Typography
               sx={{
-                color: "var(--color-text-secondary)",
+                color: "rgba(255,255,255,0.7)",
                 lineHeight: 1.8,
                 mb: 3,
               }}
@@ -41,57 +41,42 @@ const Footer = () => {
               Kenya. Track, save, and grow your wealth with AI-powered insights.
             </Typography>
             <Stack direction="row" spacing={1}>
-              <IconButton color="primary" size="small">
-                <Twitter />
-              </IconButton>
-              <IconButton color="primary" size="small">
-                <Facebook />
-              </IconButton>
-              <IconButton color="primary" size="small">
-                <Instagram />
-              </IconButton>
-              <IconButton color="primary" size="small">
-                <LinkedIn />
-              </IconButton>
+              {[Twitter, Facebook, Instagram, LinkedIn].map((Icon, i) => (
+                <IconButton 
+                  key={i}
+                  size="small"
+                  sx={{ 
+                    color: "rgba(255,255,255,0.7)", 
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    '&:hover': { bgcolor: 'rgba(255,255,255,0.1)', color: 'white' }
+                  }}
+                >
+                  <Icon fontSize="small" />
+                </IconButton>
+              ))}
             </Stack>
           </Box>
 
-        
           <Box sx={{ flex: "1 1 150px" }}>
             <Typography variant="subtitle1" sx={{ fontWeight: 800, mb: 3 }}>
               Platform
             </Typography>
             <Stack spacing={2}>
-              <Typography
-                sx={{
-                  color: "var(--color-text-secondary)",
-                  cursor: "pointer",
-                  "&:hover": { color: "var(--color-primary)" },
-                }}
-                onClick={() => navigate("/login")}
-              >
-                Dashboard
-              </Typography>
-              <Typography
-                sx={{
-                  color: "var(--color-text-secondary)",
-                  cursor: "pointer",
-                  "&:hover": { color: "var(--color-primary)" },
-                }}
-                onClick={() => navigate("/")}
-              >
-                Features
-              </Typography>
-              <Typography
-                sx={{
-                  color: "var(--color-text-secondary)",
-                  cursor: "pointer",
-                  "&:hover": { color: "var(--color-primary)" },
-                }}
-                onClick={() => navigate("/about")}
-              >
-                Our Mission
-              </Typography>
+              {["Dashboard", "Features", "Our Mission"].map((text) => (
+                <Typography
+                  key={text}
+                  sx={{
+                    color: "rgba(255,255,255,0.7)",
+                    cursor: "pointer",
+                    fontSize: "0.9rem",
+                    transition: '0.2s',
+                    "&:hover": { color: "white", transform: 'translateX(5px)' },
+                  }}
+                  onClick={() => navigate(text === "Dashboard" ? "/login" : "/")}
+                >
+                  {text}
+                </Typography>
+              ))}
             </Stack>
           </Box>
 
@@ -100,36 +85,21 @@ const Footer = () => {
               Company
             </Typography>
             <Stack spacing={2}>
-              <Typography
-                sx={{
-                  color: "var(--color-text-secondary)",
-                  cursor: "pointer",
-                  "&:hover": { color: "var(--color-primary)" },
-                }}
-                onClick={() => navigate("/about")}
-              >
-                About Us
-              </Typography>
-              <Typography
-                sx={{
-                  color: "var(--color-text-secondary)",
-                  cursor: "pointer",
-                  "&:hover": { color: "var(--color-primary)" },
-                }}
-                onClick={() => navigate("/team")}
-              >
-                Meet Our Team
-              </Typography>
-              <Typography
-                sx={{
-                  color: "var(--color-text-secondary)",
-                  cursor: "pointer",
-                  "&:hover": { color: "var(--color-primary)" },
-                }}
-                onClick={() => navigate("/testimonials")}
-              >
-                Testimonials
-              </Typography>
+              {["About Us", "Meet Our Team", "Testimonials"].map((text) => (
+                <Typography
+                  key={text}
+                  sx={{
+                    color: "rgba(255,255,255,0.7)",
+                    cursor: "pointer",
+                    fontSize: "0.9rem",
+                    transition: '0.2s',
+                    "&:hover": { color: "white", transform: 'translateX(5px)' },
+                  }}
+                  onClick={() => navigate("/")}
+                >
+                  {text}
+                </Typography>
+              ))}
             </Stack>
           </Box>
 
@@ -138,39 +108,26 @@ const Footer = () => {
               Support
             </Typography>
             <Stack spacing={2}>
-              <Typography
-                sx={{
-                  color: "var(--color-text-secondary)",
-                  cursor: "pointer",
-                  "&:hover": { color: "var(--color-primary)" },
-                }}
-                onClick={() => navigate("/contact")}
-              >
-                Contact Us
-              </Typography>
-              <Typography
-                sx={{
-                  color: "var(--color-text-secondary)",
-                  cursor: "pointer",
-                  "&:hover": { color: "var(--color-primary)" },
-                }}
-              >
-                Privacy Policy
-              </Typography>
-              <Typography
-                sx={{
-                  color: "var(--color-text-secondary)",
-                  cursor: "pointer",
-                  "&:hover": { color: "var(--color-primary)" },
-                }}
-              >
-                Terms of Service
-              </Typography>
+              {["Contact Us", "Privacy Policy", "Terms of Service"].map((text) => (
+                <Typography
+                  key={text}
+                  sx={{
+                    color: "rgba(255,255,255,0.7)",
+                    cursor: "pointer",
+                    fontSize: "0.9rem",
+                    transition: '0.2s',
+                    "&:hover": { color: "white", transform: 'translateX(5px)' },
+                  }}
+                  onClick={() => navigate(text === "Contact Us" ? "/contact" : "/")}
+                >
+                  {text}
+                </Typography>
+              ))}
             </Stack>
           </Box>
         </Box>
 
-        <Divider sx={{ mb: 4 }} />
+        <Divider sx={{ mb: 4, borderColor: "rgba(255,255,255,0.1)" }} />
 
         <Box
           sx={{
@@ -178,24 +135,26 @@ const Footer = () => {
             justifyContent: "space-between",
             flexWrap: "wrap",
             gap: 2,
+            alignItems: 'center'
           }}
         >
-          <Typography variant="body2" sx={{ color: "var(--color-text-light)" }}>
-            © 2026 FinGPS. Built with ❤️ by the FinGPS Team.
+          <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.5)" }}>
+            © 2026 FinGPS. All rights reserved.
           </Typography>
           <Typography
             variant="body2"
             sx={{ 
-                color: "var(--color-text-light)", 
+                color: "rgba(255,255,255,0.7)", 
                 fontWeight: 700,
                 cursor: 'pointer',
-                '&:hover': { color: 'var(--color-primary)' }
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+                '&:hover': { color: 'white' }
             }}
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           >
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-              UPArrow
-            </Box>
+            BACK TO TOP <ArrowUpward fontSize="small" />
           </Typography>
         </Box>
       </Container>

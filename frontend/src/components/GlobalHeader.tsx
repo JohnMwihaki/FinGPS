@@ -10,10 +10,23 @@ import {
   MenuItem,
   useMediaQuery,
   useTheme,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Divider,
+  Stack,
 } from "@mui/material";
 import {
   Notifications as NotificationsIcon,
   Menu as MenuIcon,
+  Close as CloseIcon,
+  Home as HomeIcon,
+  Group as GroupIcon,
+  Message as MessageIcon,
+  Info as InfoIcon,
 } from "@mui/icons-material";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
@@ -44,7 +57,7 @@ const GlobalHeader = ({ onMenuClick }: { onMenuClick?: () => void }) => {
     queryKey: ["notifications"],
     queryFn: fetchNotifications,
     enabled: isAuthenticated,
-    refetchInterval: 30000, // Poll every 30s
+    refetchInterval: 30000, 
   });
 
   const unreadCount = notifications?.filter((n: any) => !n.is_read).length || 0;
@@ -56,14 +69,16 @@ const GlobalHeader = ({ onMenuClick }: { onMenuClick?: () => void }) => {
     navigate("/");
   };
 
-  const NavItems = [
-    { label: "About Us", path: "#about" },
-    { label: "Testimonials", path: "#testimonials" },
-    { label: "Our Team", path: "#team" },
-    { label: "Contact Us", path: "/contact" },
+  const navItems = [
+    { label: "Home", path: "/", icon: <HomeIcon /> },
+    { label: "About Us", path: "#about", icon: <InfoIcon /> },
+    { label: "Testimonials", path: "#testimonials", icon: <MessageIcon /> },
+    { label: "Our Team", path: "#team", icon: <GroupIcon /> },
+    { label: "Contact Us", path: "/contact", icon: <MessageIcon /> },
   ];
 
   const handleNav = (path: string) => {
+    setMobileMenuOpen(false);
     if (path.startsWith("#")) {
       if (isLanding) {
         const element = document.getElementById(path.substring(1));
@@ -78,7 +93,54 @@ const GlobalHeader = ({ onMenuClick }: { onMenuClick?: () => void }) => {
     }
   };
 
-  
+  const drawer = (
+    <Box sx={{ width: 280, p: 3 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+        <Typography variant="h5" sx={{ fontWeight: 900, color: 'var(--color-primary)' }}>FinGPS.</Typography>
+        <IconButton onClick={() => setMobileMenuOpen(false)}>
+          <CloseIcon />
+        </IconButton>
+      </Box>
+      <List>
+        {navItems.map((item) => (
+          <ListItem key={item.label} disablePadding>
+            <ListItemButton 
+              onClick={() => handleNav(item.path)}
+              sx={{ borderRadius: '12px', mb: 1, '&:hover': { bgcolor: 'var(--color-primary-light)' } }}
+            >
+              <ListItemIcon sx={{ color: 'var(--color-primary)' }}>{item.icon}</ListItemIcon>
+              <ListItemText 
+                primary={item.label} 
+                primaryTypographyProps={{ fontWeight: 700, color: 'var(--color-text-primary)' }} 
+              />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+      <Divider sx={{ my: 3 }} />
+      {!isAuthenticated && (
+        <Stack spacing={2}>
+          <Button 
+            fullWidth 
+            variant="contained" 
+            onClick={() => navigate('/register')}
+            sx={{ bgcolor: 'var(--color-primary)', borderRadius: '12px', fontWeight: 700, py: 1.5 }}
+          >
+            Get Started
+          </Button>
+          <Button 
+            fullWidth 
+            variant="outlined" 
+            onClick={() => navigate('/login')}
+            sx={{ borderColor: 'var(--color-primary)', color: 'var(--color-primary)', borderRadius: '12px', fontWeight: 700, py: 1.5 }}
+          >
+            Log in
+          </Button>
+        </Stack>
+      )}
+    </Box>
+  );
+
   if (!isAuthenticated || isLanding) {
     return (
       <Box
@@ -92,64 +154,26 @@ const GlobalHeader = ({ onMenuClick }: { onMenuClick?: () => void }) => {
           position: "sticky",
           top: 0,
           zIndex: 1100,
+          boxShadow: isLanding ? "0 2px 10px rgba(0,0,0,0.05)" : "none"
         }}
       >
-        {/* Left: Logo & Toggle */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <Typography
             variant="h5"
             sx={{
-              fontWeight: 800,
-              color: "var(--color-text-primary)",
+              fontWeight: 900,
+              color: "var(--color-primary)",
               cursor: "pointer",
             }}
             onClick={() => navigate("/")}
           >
-            FinGPS
+            FinGPS.
           </Typography>
-          {!isMobile && (
-            <Box
-              sx={{
-                display: "flex",
-                bgcolor: "#F3F4F6",
-                borderRadius: "20px",
-                p: 0.5,
-                gap: 0.5,
-              }}
-            >
-              <Button
-                size="small"
-                sx={{
-                  borderRadius: "15px",
-                  bgcolor: "var(--color-income-light)",
-                  color: "var(--color-income)",
-                  textTransform: "none",
-                  fontWeight: 700,
-                  px: 2,
-                }}
-              >
-                Personal
-              </Button>
-              <Button
-                size="small"
-                sx={{
-                  borderRadius: "15px",
-                  color: "var(--color-text-secondary)",
-                  textTransform: "none",
-                  fontWeight: 600,
-                  px: 2,
-                }}
-              >
-                Business
-              </Button>
-            </Box>
-          )}
         </Box>
 
-     
         {!isMobile && (
           <Box sx={{ display: "flex", gap: 3 }}>
-            {NavItems.map((item) => (
+            {navItems.map((item) => (
               <Typography
                 key={item.label}
                 onClick={() => handleNav(item.path)}
@@ -158,8 +182,6 @@ const GlobalHeader = ({ onMenuClick }: { onMenuClick?: () => void }) => {
                   fontWeight: 600,
                   color: "var(--color-text-primary)",
                   cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
                   "&:hover": { color: "var(--color-primary)" },
                 }}
               >
@@ -169,46 +191,54 @@ const GlobalHeader = ({ onMenuClick }: { onMenuClick?: () => void }) => {
           </Box>
         )}
 
-        {/* Right*/}
         <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-          <Button
-            onClick={() => navigate("/login")}
-            sx={{
-              color: "var(--color-income)",
-              fontWeight: 700,
-              textTransform: "none",
-              bgcolor: "var(--color-income-light)",
-              borderRadius: "20px",
-              px: 3,
-              "&:hover": { bgcolor: "var(--color-income-light)", opacity: 0.8 },
-            }}
-          >
-            Log in
-          </Button>
-          <Button
-            onClick={() => navigate("/register")}
-            sx={{
-              bgcolor: "var(--color-teal-dark)",
-              color: "white",
-              fontWeight: 700,
-              textTransform: "none",
-              borderRadius: "20px",
-              px: 3,
-              "&:hover": { bgcolor: "var(--color-teal-dark)", opacity: 0.9 },
-            }}
-          >
-            Get Started
-          </Button>
+          {!isMobile && (
+            <>
+              <Button
+                onClick={() => navigate("/login")}
+                sx={{
+                  color: "var(--color-primary)",
+                  fontWeight: 700,
+                  textTransform: "none",
+                  px: 3,
+                }}
+              >
+                Log in
+              </Button>
+              <Button
+                onClick={() => navigate("/register")}
+                sx={{
+                  bgcolor: "var(--color-primary)",
+                  color: "white",
+                  fontWeight: 700,
+                  textTransform: "none",
+                  borderRadius: "20px",
+                  px: 3,
+                  "&:hover": { bgcolor: "var(--color-primary-dark)" },
+                }}
+              >
+                Get Started
+              </Button>
+            </>
+          )}
           {isMobile && (
-            <IconButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+            <IconButton onClick={() => setMobileMenuOpen(true)}>
               <MenuIcon />
             </IconButton>
           )}
         </Box>
+
+        <Drawer
+          anchor="right"
+          open={mobileMenuOpen}
+          onClose={() => setMobileMenuOpen(false)}
+          PaperProps={{ sx: { width: 280 } }}
+        >
+          {drawer}
+        </Drawer>
       </Box>
     );
   }
-
 
   return (
     <Box
@@ -233,7 +263,7 @@ const GlobalHeader = ({ onMenuClick }: { onMenuClick?: () => void }) => {
           sx={{
             fontWeight: 800,
             display: { xs: "block", md: "none" },
-            color: "var(--color-text-primary)",
+            color: "var(--color-primary)",
           }}
         >
           FinGPS.

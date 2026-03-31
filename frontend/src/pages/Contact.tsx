@@ -7,8 +7,11 @@ import {
   TextField,
   Button,
   Paper,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@mui/material";
-import { Email, Phone, LocationOn, Send } from "@mui/icons-material";
+import { Email, Phone, LocationOn, Send, ExpandMore } from "@mui/icons-material";
 import GlobalHeader from "../components/GlobalHeader";
 import Footer from "../components/Footer";
 import { toast } from "react-toastify";
@@ -52,7 +55,7 @@ const Contact = () => {
             We're Here to Help
           </Typography>
           <Typography variant="h5" sx={{ opacity: 0.9 }}>
-            Have questions about  FinGPS? Reach out to our team.
+            Have questions about FinGPS? Reach out to our team.
           </Typography>
         </Container>
       </Box>
@@ -65,7 +68,6 @@ const Contact = () => {
             gap: 8,
           }}
         >
-         
           <Box sx={{ flex: 1 }}>
             <Typography
               variant="h3"
@@ -192,6 +194,71 @@ const Contact = () => {
           </Box>
         </Box>
       </Container>
+
+      {/* FAQ Section */}
+      <Box sx={{ bgcolor: "rgba(13, 148, 136, 0.05)", py: 12 }}>
+        <Container maxWidth="md">
+          <Typography
+            variant="h3"
+            textAlign="center"
+            sx={{ fontWeight: 800, mb: 6, color: "var(--color-text-primary)" }}
+          >
+            Frequently Asked Questions
+          </Typography>
+          <Stack spacing={2}>
+            {[
+              {
+                q: "Is my financial data secure?",
+                a: "Absolutely. FinGPS uses industry-standard encryption and we never store your bank credentials. Your privacy is our top priority.",
+              },
+              {
+                q: "How does the AI Advisor help me?",
+                a: "Our AI analyzes your spending habits and provides personalized tips on how to save more, avoid over-budgeting, and reach your goals faster.",
+              },
+              {
+                q: "Can I use FinGPS across multiple devices?",
+                a: "Yes! Your account syncs perfectly across your phone, tablet, and laptop so you always have your finances at your fingertips.",
+              },
+              {
+                q: "Is there a cost for using FinGPS?",
+                a: "The basic version for students is completely free. We are committed to helping university students master their finances.",
+              },
+              {
+                q: "How do I set up my first budget?",
+                a: "Simply go to the Budgets page, click 'Create Budget', and enter your expected income and expenses for the month. Our AI will guide you!",
+              },
+            ].map((faq, index) => (
+              <Accordion
+                key={index}
+                sx={{
+                  borderRadius: "16px !important",
+                  mb: 1,
+                  boxShadow: "none",
+                  border: "1px solid var(--color-border)",
+                  "&:before": { display: "none" },
+                }}
+              >
+                <AccordionSummary
+                  expandIcon={<ExpandMore sx={{ color: "var(--color-primary)" }} />}
+                  sx={{ py: 1 }}
+                >
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: 700, color: "var(--color-text-primary)" }}
+                  >
+                    {faq.q}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails sx={{ pb: 3 }}>
+                  <Typography sx={{ color: "var(--color-text-secondary)", lineHeight: 1.7 }}>
+                    {faq.a}
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
+            ))}
+          </Stack>
+        </Container>
+      </Box>
 
       <Footer />
     </Box>
