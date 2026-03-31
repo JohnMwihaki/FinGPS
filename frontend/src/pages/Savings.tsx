@@ -13,7 +13,6 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "../api/axiosConfig";
 import {
   EmojiEvents,
-  Savings as SavingsIcon,
   Add,
   LocalOffer,
 } from "@mui/icons-material";
