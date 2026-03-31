@@ -57,7 +57,7 @@ const GlobalHeader = ({ onMenuClick }: { onMenuClick?: () => void }) => {
     queryKey: ["notifications"],
     queryFn: fetchNotifications,
     enabled: isAuthenticated,
-    refetchInterval: 30000, 
+    refetchInterval: 10000,
   });
 
   const unreadCount = notifications?.filter((n: any) => !n.is_read).length || 0;
@@ -95,8 +95,20 @@ const GlobalHeader = ({ onMenuClick }: { onMenuClick?: () => void }) => {
 
   const drawer = (
     <Box sx={{ width: 280, p: 3 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
-        <Typography variant="h5" sx={{ fontWeight: 900, color: 'var(--color-primary)' }}>FinGPS.</Typography>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 4,
+        }}
+      >
+        <Typography
+          variant="h5"
+          sx={{ fontWeight: 900, color: "var(--color-primary)" }}
+        >
+          FinGPS.
+        </Typography>
         <IconButton onClick={() => setMobileMenuOpen(false)}>
           <CloseIcon />
         </IconButton>
@@ -104,14 +116,23 @@ const GlobalHeader = ({ onMenuClick }: { onMenuClick?: () => void }) => {
       <List>
         {navItems.map((item) => (
           <ListItem key={item.label} disablePadding>
-            <ListItemButton 
+            <ListItemButton
               onClick={() => handleNav(item.path)}
-              sx={{ borderRadius: '12px', mb: 1, '&:hover': { bgcolor: 'var(--color-primary-light)' } }}
+              sx={{
+                borderRadius: "12px",
+                mb: 1,
+                "&:hover": { bgcolor: "var(--color-primary-light)" },
+              }}
             >
-              <ListItemIcon sx={{ color: 'var(--color-primary)' }}>{item.icon}</ListItemIcon>
-              <ListItemText 
-                primary={item.label} 
-                primaryTypographyProps={{ fontWeight: 700, color: 'var(--color-text-primary)' }} 
+              <ListItemIcon sx={{ color: "var(--color-primary)" }}>
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText
+                primary={item.label}
+                primaryTypographyProps={{
+                  fontWeight: 700,
+                  color: "var(--color-text-primary)",
+                }}
               />
             </ListItemButton>
           </ListItem>
@@ -120,19 +141,30 @@ const GlobalHeader = ({ onMenuClick }: { onMenuClick?: () => void }) => {
       <Divider sx={{ my: 3 }} />
       {!isAuthenticated && (
         <Stack spacing={2}>
-          <Button 
-            fullWidth 
-            variant="contained" 
-            onClick={() => navigate('/register')}
-            sx={{ bgcolor: 'var(--color-primary)', borderRadius: '12px', fontWeight: 700, py: 1.5 }}
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={() => navigate("/register")}
+            sx={{
+              bgcolor: "var(--color-income)",
+              borderRadius: "12px",
+              fontWeight: 700,
+              py: 1.5,
+            }}
           >
             Get Started
           </Button>
-          <Button 
-            fullWidth 
-            variant="outlined" 
-            onClick={() => navigate('/login')}
-            sx={{ borderColor: 'var(--color-primary)', color: 'var(--color-primary)', borderRadius: '12px', fontWeight: 700, py: 1.5 }}
+          <Button
+            fullWidth
+            variant="outlined"
+            onClick={() => navigate("/login")}
+            sx={{
+              borderColor: "var(--color-primary)",
+              color: "var(--color-primary)",
+              borderRadius: "12px",
+              fontWeight: 700,
+              py: 1.5,
+            }}
           >
             Log in
           </Button>
@@ -154,7 +186,7 @@ const GlobalHeader = ({ onMenuClick }: { onMenuClick?: () => void }) => {
           position: "sticky",
           top: 0,
           zIndex: 1100,
-          boxShadow: isLanding ? "0 2px 10px rgba(0,0,0,0.05)" : "none"
+          boxShadow: isLanding ? "0 2px 10px rgba(0,0,0,0.05)" : "none",
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
@@ -321,7 +353,10 @@ const GlobalHeader = ({ onMenuClick }: { onMenuClick?: () => void }) => {
                 sx={{ fontSize: "3rem", opacity: 0.1, mb: 1 }}
               />
               <Typography
-                sx={{ color: "var(--color-text-secondary)", fontSize: "0.9rem" }}
+                sx={{
+                  color: "var(--color-text-secondary)",
+                  fontSize: "0.9rem",
+                }}
               >
                 No notifications yet
               </Typography>

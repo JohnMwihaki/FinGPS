@@ -139,7 +139,7 @@ const Footer = () => {
           }}
         >
           <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.5)" }}>
-            © 2026 FinGPS. All rights reserved.
+            © 2026 FinGPS.Built with &hearts; by John Kimani. All rights reserved.
           </Typography>
           <Typography
             variant="body2"
