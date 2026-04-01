@@ -19,11 +19,6 @@ import {
   Tabs,
   Tab,
   IconButton,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Divider,
 } from "@mui/material";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "../api/axiosConfig";
@@ -36,8 +31,6 @@ import {
   AutoAwesome,
   CloudUpload,
   ContentPaste,
-  Edit,
-  Close,
 } from "@mui/icons-material";
 import { toast } from "react-toastify";
 import { MASTER_CATEGORIES } from "./Budgets";
@@ -68,9 +61,6 @@ const Transactions = () => {
   const [file, setFile] = useState<File | null>(null);
   const [pdfPassword, setPdfPassword] = useState("");
   const [parsedStatement, setParsedStatement] = useState<any[] | null>(null);
-
-  // Edit State
-  const [editingTransaction, setEditingTransaction] = useState<any>(null);
 
   const mutation = useMutation({
     mutationFn: (newTransaction: any) =>
@@ -105,13 +95,17 @@ const Transactions = () => {
       if (res.data.length > 0) {
         toast.info(`AI found ${res.data.length} transactions in your text.`);
       } else {
-        toast.warning("AI couldn't find any clear transactions. Try pasting more details.");
+        toast.warning(
+          "AI couldn't find any clear transactions. Try pasting more details.",
+        );
       }
     },
     onError: (err: any) => {
-      const msg = err.response?.data?.error || "AI was unable to parse this text. Please try again.";
+      const msg =
+        err.response?.data?.error ||
+        "AI was unable to parse this text. Please try again.";
       toast.error(msg);
-    }
+    },
   });
 
   const uploadMutation = useMutation({
@@ -126,7 +120,9 @@ const Transactions = () => {
       );
     },
     onError: (err: any) => {
-      const msg = err.response?.data?.error || "Failed to process statement. Check your PDF password.";
+      const msg =
+        err.response?.data?.error ||
+        "Failed to process statement. Check your PDF password.";
       toast.error(msg, { position: "top-right" });
     },
   });
@@ -138,16 +134,21 @@ const Transactions = () => {
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
       queryClient.invalidateQueries({ queryKey: ["notifications"] });
       toast.success(res.data.message);
-      
+
       if (res.data.alerts?.length > 0) {
         const uniqueAlerts = res.data.alerts;
         if (uniqueAlerts.length > 2) {
-          toast.warning(`⚠️ Budget Alert: You have exceeded limits in ${uniqueAlerts.length} categories! See notifications for details.`, {
-            position: "top-right",
-            autoClose: 10000
-          });
+          toast.warning(
+            `⚠️ Budget Alert: You have exceeded limits in ${uniqueAlerts.length} categories! See notifications for details.`,
+            {
+              position: "top-right",
+              autoClose: 10000,
+            },
+          );
         } else {
-          uniqueAlerts.forEach((alert: string) => toast.error(alert, { autoClose: 8000 }));
+          uniqueAlerts.forEach((alert: string) =>
+            toast.error(alert, { autoClose: 8000 }),
+          );
         }
       }
       setParsedData(null);
@@ -211,13 +212,23 @@ const Transactions = () => {
             "& .Mui-selected": { color: "var(--color-primary)" },
           }}
         >
-          <Tab icon={<Add />} label="Manual Entry" iconPosition="start" sx={{color:"white"}} />
-          <Tab icon={<ContentPaste />} label="Magic SMS" iconPosition="start" sx={{color:"white"}} />
+          <Tab
+            icon={<Add />}
+            label="Manual Entry"
+            iconPosition="start"
+            sx={{ color: "white" }}
+          />
+          <Tab
+            icon={<ContentPaste />}
+            label="Magic SMS"
+            iconPosition="start"
+            sx={{ color: "white" }}
+          />
           <Tab
             icon={<CloudUpload />}
             label="Smart Statement"
             iconPosition="start"
-            sx={{color:"white"}}
+            sx={{ color: "white" }}
           />
         </Tabs>
 
